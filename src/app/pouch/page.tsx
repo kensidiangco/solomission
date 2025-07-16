@@ -5,7 +5,7 @@ export default function Pouch() {
     <div className="p-100 flex flex-center justify-center">
         <div className="flex flex-col gap-10">
             <p className="font-bold text-center text-7xl mb-5">Pouch Inventory</p>
-            <div class="rounded-t-xl overflow-hidden bg-gradient-to-r from-emerald-50 to-teal-100 p-10">
+            <div className="rounded-t-xl overflow-hidden bg-gradient-to-r from-emerald-50 to-teal-100 p-10">
 
                 <table className="table-auto">
                     <thead>
