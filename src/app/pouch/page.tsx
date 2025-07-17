@@ -23,7 +23,7 @@ export default function Pouch() {
                 </div>
             </div>
 
-            <div className="rounded-t-xl overflow-hidden bg-gradient-to-r from-stone-50 to-slate-100 p-10">
+            <div className="rounded-t-xl overflow-hidden bg-gradient-to-r from-stone-50 to-slate-100 p-5">
                 <table className="table-auto">
                     <thead>
                         <tr>
@@ -39,13 +39,40 @@ export default function Pouch() {
                     </thead>
                     <tbody>
                         <tr>
-                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">KEN</td>
-                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">MEDIUM</td>
+                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">MARJ</td>
+                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">LARGE</td>
                             <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">1K</td>
                             <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">FOR SELL</td>
-                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">GOKONWEI</td>
-                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">SAMPLE</td>
-                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">PAID</td>
+                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">---</td>
+                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">07-16-25</td>
+                            <td className="border border-stone-500 px-4 py-2 text-red-600 font-medium">NOT PAID</td>
+                        </tr>
+                        <tr>
+                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">LEO</td>
+                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">LARGE</td>
+                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">3.5K</td>
+                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">FOR SELL</td>
+                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">---</td>
+                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">07-17-25</td>
+                            <td className="border border-stone-500 px-4 py-2 text-green-600 font-medium">PAID</td>
+                        </tr>
+                        <tr>
+                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">JAMES</td>
+                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">LARGE</td>
+                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">1K</td>
+                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">FOR SELL</td>
+                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">---</td>
+                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">07-17-25</td>
+                            <td className="border border-stone-500 px-4 py-2 text-green-600 font-medium">PAID</td>
+                        </tr>
+                        <tr>
+                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">JAMES</td>
+                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">MEDIUM</td>
+                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">5K</td>
+                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">FOR SELL</td>
+                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">ELSA ONG</td>
+                            <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">07-17-25</td>
+                            <td className="border border-stone-500 px-4 py-2 text-green-600 font-medium">FREE</td>
                         </tr>
                     </tbody>
                 </table>
