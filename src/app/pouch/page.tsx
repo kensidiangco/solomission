@@ -8,22 +8,22 @@ export default function Pouch() {
 
             <div className="flex flex-col gap-4 p-2">
                 <div className="flex gap-4 pl-2 pr-2 justify-around">
-                    <div className="p-4 text-2xl font-bold bg-gradient-to-r from-stone-50 to-slate-100 rounded-t-xl hover:shadow-2xl text-stone-600">
+                    <div className="px-10 py-2 text-2xl font-bold bg-gradient-to-r from-stone-50 to-slate-100 rounded-t-xl hover:shadow-xl text-stone-600 hover:text-3xl duration-300 ease-in cursor-pointer">
                         <p className="">Small</p>
-                        <p className="">1k</p>
+                        <p className="text-center">1k</p>
                     </div>
-                    <div className="p-4 text-2xl font-bold bg-gradient-to-r from-stone-50 to-slate-100 rounded-t-xl hover:shadow-2xl text-stone-600">
+                    <div className="px-10 py-2 text-2xl font-bold bg-gradient-to-r from-stone-50 to-slate-100 rounded-t-xl hover:shadow-xl text-stone-600 hover:text-3xl duration-300 ease-in cursor-pointer">
                         <p className="">Medium</p>
-                        <p className="">1k</p>
+                        <p className="text-center">1k</p>
                     </div>
-                    <div className="p-4 text-2xl font-bold bg-gradient-to-r from-stone-50 to-slate-100 rounded-t-xl hover:shadow-2xl text-stone-600">
+                    <div className="px-10 py-2 text-2xl font-bold bg-gradient-to-r from-stone-50 to-slate-100 rounded-t-xl hover:shadow-xl text-stone-600 hover:text-3xl duration-300 ease-in cursor-pointer">
                         <p className="">Large</p>
-                        <p className="">1k</p>
+                        <p className="text-center">1k</p>
                     </div>
                 </div>
             </div>
 
-            <div className="rounded-t-xl overflow-hidden bg-gradient-to-r from-stone-50 to-slate-100 p-5">
+            <div className="rounded-t-xl overflow-hidden bg-gradient-to-r from-stone-50 to-slate-100 p-5 shadow">
                 <table className="table-auto">
                     <thead>
                         <tr>
