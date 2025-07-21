@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="p-50 flex-center justify-center gap-4">
+    <div className="flex-center justify-center gap-4">
       <p className="font-bold text-center text-7xl mb-5">Solo Mission Project</p>
       <div className="flex flex-col flex-wrap gap-4">
         <Link href={"/pouch"} className="font-bold text-center text-3xl">

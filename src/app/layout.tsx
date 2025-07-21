@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Tab from "@/components/tab";
+import ClientLayoutWrapper from "@/components/ClientLayoutWrapper";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -22,20 +23,20 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <div className="grid grid-cols-4">
-          
-          <Tab />
+        {/* <Tab /> */}
 
-          <div className="p-10">
+        <div className="">
+          <ClientLayoutWrapper>
             {children}
-          </div>
-          
+          </ClientLayoutWrapper>
         </div>
+          
       </body>
     </html>
   );
