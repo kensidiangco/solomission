@@ -2,9 +2,9 @@ import Link from "next/link"
 
 export default function Pouch() {
   return (
-    <div className="p-20 flex flex-center justify-center">
-        <div className="flex flex-col gap-5">
-            <p className="font-bold text-center text-7xl mb-2 text-stone-800">Pouch</p>
+    <div className="flex mx-5">
+        <div className="flex flex-col mx-10 gap-5">
+        <p className="font-bold text-2xl mb-2 text-stone-800">Log</p>
 
             <div className="flex flex-col gap-4 p-2">
                 <div className="flex gap-4 pl-2 pr-2 justify-around">
@@ -78,9 +78,6 @@ export default function Pouch() {
                 </table>
             </div>
             
-            <Link href={"/"} className="font-bold text-center text-4xl">
-                <p className="text-blue-400">Back!</p>
-            </Link>
         </div>
       
     </div>
