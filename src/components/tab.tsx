@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 
 export default function Tab() {
   const pathname = usePathname();
-  const showInventTab = pathname == '/pouch';
+  const showInventTab = pathname?.includes('pouch')
 
   return (
     <div className="sticky top-0 flex gap-4 px-8">
