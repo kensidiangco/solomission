@@ -13,7 +13,7 @@ export default function PouchOut() {
 
         <p className='text-2xl font-bold'>Stock Out</p>
 
-        <div className="flex flex-col gap-4">
+        <form action="" className="flex flex-col gap-4">
           <input type="text" name="getter" id="" placeholder="Getter" className='p-2 rounded border'/>
           <select name="size" id="" className='p-2 rounded border'>
             <option value="s">S</option>  
@@ -28,8 +28,8 @@ export default function PouchOut() {
             <option value="np">Not Paid</option>  
             <option value="p">Paid</option>  
           </select>      
-          <input type="button" value="Submit" className='bg-blue-500 p-3 rounded cursor-pointer text-white'/>
-        </div>
+          <input type="submit" value="Submit" className='bg-blue-500 p-3 rounded cursor-pointer text-white'/>
+        </form>
   
       </div>
     </div>
