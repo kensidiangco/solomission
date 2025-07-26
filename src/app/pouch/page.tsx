@@ -2,25 +2,29 @@ import Link from "next/link"
 
 export default function Pouch() {
   return (
-    <div className="h-screen flex flex-center justify-center items-center">
-        <div className="flex flex-col gap-5">
-            <p className="font-bold text-center text-7xl mb-2 text-stone-800">Pouch</p>
+    <div className="py-50 flex flex-center justify-around items-start mx-50">
+        <div className="">
+            <div className="">
+                <p className="font-bold text-2xl text-stone-800 my-4">Stock</p>
 
-            <div className="flex gap-4 pl-2 pr-2 justify-around">
-                <div className="px-10 py-2 text-2xl font-bold bg-gradient-to-r from-stone-50 to-slate-100 rounded-t-xl hover:shadow-xl text-stone-600 hover:text-3xl duration-300 ease-in cursor-pointer">
-                    <p className="">Small</p>
-                    <p className="text-center">1k</p>
-                </div>
-                <div className="px-10 py-2 text-2xl font-bold bg-gradient-to-r from-stone-50 to-slate-100 rounded-t-xl hover:shadow-xl text-stone-600 hover:text-3xl duration-300 ease-in cursor-pointer">
-                    <p className="">Medium</p>
-                    <p className="text-center">1k</p>
-                </div>
-                <div className="px-10 py-2 text-2xl font-bold bg-gradient-to-r from-stone-50 to-slate-100 rounded-t-xl hover:shadow-xl text-stone-600 hover:text-3xl duration-300 ease-in cursor-pointer">
-                    <p className="">Large</p>
-                    <p className="text-center">1k</p>
+                <div className="flex flex-col gap-10 bg-gradient-to-r from-stone-30 to-slate-50 rounded-t-xl shadow p-4">
+                    <div className="">
+                        <p className="font-bold text-xl">Small</p>
+                        <p className="">1,000</p>
+                    </div>
+                    <div className="">
+                        <p className="font-bold text-xl">Medium</p>
+                        <p className="">1,000</p>
+                    </div>
+                    <div className="">
+                        <p className="font-bold text-xl">Large</p>
+                        <p className="">3,500</p>
+                    </div>
                 </div>
             </div>
-
+        </div>
+        <div className="">
+            <p className="font-bold text-2xl text-stone-800 my-4">Log</p>
             <div className="rounded-t-xl overflow-hidden bg-gradient-to-r from-stone-50 to-slate-100 p-5 shadow">
                 <table className="table-auto">
                     <thead>
@@ -76,7 +80,6 @@ export default function Pouch() {
                 </table>
             </div>
         </div>
-      
     </div>
   )
 }
