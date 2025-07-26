@@ -9,11 +9,11 @@ export default function Invent() {
         <p className='font-bold text-3xl'>Para lamang alam ko</p>
       </div>
   
-      <div className='flex flex-col p-4 gap-4'>
+      <div className='flex flex-col p-4 gap-2'>
 
         <p className='text-2xl font-bold'>Stock In</p>
 
-        <form action=""  className="flex flex-col gap-4">
+        <form action=""  className="flex flex-col gap-4 flex flex-col gap-4 p-2 bg-gradient-to-r from-stone-50 to-slate-100 shadow">
           <select name="size" id="" className='p-2 rounded border'>
             <option value="s">S</option>  
             <option value="m">M</option>  
