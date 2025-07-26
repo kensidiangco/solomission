@@ -7,7 +7,7 @@ export default function Pouch() {
             <div className="">
                 <p className="font-bold text-2xl text-stone-800 my-4">Stock</p>
 
-                <div className="flex flex-col gap-10 bg-gradient-to-r from-stone-30 to-slate-50 rounded-t-xl shadow p-4">
+                <div className="flex flex-col gap-10 bg-gradient-to-r from-stone-30 to-slate-100 rounded-t-xl shadow p-4">
                     <div className="">
                         <p className="font-bold text-xl">Small</p>
                         <p className="">1,000</p>
