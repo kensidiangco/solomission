@@ -19,7 +19,7 @@ interface Props {
 
 const PouchLogTable: React.FC<Props> = ({items}) => {
   return (
-    <table className="table-auto">
+    <table className="table-auto capitalize">
         <thead>
             <tr>
                 <th className="px-4 py-2 text-stone-600">GETTER</th>
@@ -40,7 +40,7 @@ const PouchLogTable: React.FC<Props> = ({items}) => {
                     <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">{item.purpose}</td>
                     <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">{item.given}</td>
                     <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">{item.date_created}</td>
-                    <td className="border border-stone-500 px-4 py-2 text-red-600 font-medium">{item.status}</td>
+                    <td className={item.status === "free" ? "border border-stone-500 px-4 py-2 text-green-600 font-medium" : "border border-stone-500 px-4 py-2 text-red-600 font-medium" }>{item.status}</td>
                 </tr>
             ))} 
         </tbody>
