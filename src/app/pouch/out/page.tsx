@@ -18,7 +18,7 @@ export default function PouchOut() {
         
         <label className="block mb-1 text-gray-700">Size</label>
         <select name="size" id="" className='w-full px-4 py-3 rounded-lg bg-gray-900/20 text-gray-900 placeholder-gray-700/50 backdrop-blur bg-clip-padding focus:outline-none focus:bg-gray-900/25 transition-colors'>
-          <option defaultValue selected disabled>Select Size</option>
+          <option defaultValue={0} selected disabled>Select Size</option>
           <option value="s">S</option>  
           <option value="m">M</option>  
           <option value="l">L</option>  

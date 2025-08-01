@@ -2,9 +2,9 @@
 
 import React from 'react'
 
-interface pouchItem {
-    id: number
-    pouch: string;
+interface pouchOutLogItem {
+    id: number;
+    pouch: string[];
     getter: string;
     quantity: number;
     purpose: string;
@@ -12,12 +12,11 @@ interface pouchItem {
     given: string;
     date_created: string;
 }
+type Props = {
+  items: pouchOutLogItem[];
+};
 
-interface Props {
-    items: pouchItem[];
-}
-
-const PouchLogTable: React.FC<Props> = ({items}) => {
+const PouchOutLogTable: React.FC<Props> = ({items}) => {
   return (
     <table className="table-auto uppercase">
         <thead>
@@ -48,4 +47,4 @@ const PouchLogTable: React.FC<Props> = ({items}) => {
   )
 }
 
-export default PouchLogTable;
+export default PouchOutLogTable;

@@ -1,13 +1,43 @@
 import useSWR from 'swr';
 import fetcher from "@/lib/fetcher";
 
-export function usePouchInventory() {
-    const { data, error, isLoading, mutate } = useSWR('/', fetcher);
-    console.log(data)
+interface pouchOutLogItem {
+    id: number
+    pouch: string;
+    getter: string;
+    quantity: number;
+    purpose: string;
+    status: string;
+    given: string;
+    date_created: string;
+}
+
+export function usePouchOutLogInventory() {
+    const { data, error, isLoading, mutate } = useSWR<pouchOutLogItem[]>('outlog/', fetcher);
+
     return {
-        items: Array.isArray(data) ? data : [],
-        isLoading,
-        isError: error,
+        pouchOutLog: Array.isArray(data) ? data : [],
+        isPouchLogLoading: isLoading,
+        isPouchLogError: error,
+        mutate,
+    };
+}
+
+interface pouchItem {
+    id: number
+    size: string;
+    quantity: number;
+    date_created: string;
+    date_updated: string;
+}
+
+export function usePouchInventory() {
+    const { data, error, isLoading, mutate } = useSWR<pouchItem[]>('/', fetcher);
+
+    return {
+        pouch: Array.isArray(data) ? data : [],
+        isPouchLoading: isLoading,
+        isPouchError: error,
         mutate,
     };
 }
