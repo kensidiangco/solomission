@@ -21,7 +21,7 @@ const PouchStock: React.FC<Props> = ({items}) => {
         {items.map(item => (
             <div className="flex flex-col gap-2" key={item.id}>
                 <p className="font-bold text-xl">{item.size}</p>
-                <p className="">{item.quantity}</p>
+                <p className="">{item.quantity_formatted}</p>
             </div>
         ))}
     </div>

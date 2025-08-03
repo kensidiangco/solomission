@@ -35,11 +35,11 @@ const PouchOutLogTable: React.FC<Props> = ({items}) => {
                 <tr key={item.id}>
                     <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">{item.getter}</td>
                     <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">{item.pouch.size}</td>
-                    <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">{item.quantity}</td>
+                    <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">{item.quantity_formatted}</td>
                     <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">{item.purpose}</td>
                     <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">{item.given}</td>
                     <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">{item.date_created}</td>
-                    <td className={item.status === "free" ? "border border-stone-500 px-4 py-2 text-green-600 font-medium" : "border border-stone-500 px-4 py-2 text-red-600 font-medium" }>{item.status}</td>
+                    <td className={item.status === "Not Paid"? "border border-stone-500 px-4 py-2 text-red-600 font-medium" : "border border-stone-500 px-4 py-2 text-green-600 font-medium"}>{item.status}</td>
                 </tr>
             ))} 
         </tbody>

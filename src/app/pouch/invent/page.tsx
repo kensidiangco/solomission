@@ -3,7 +3,7 @@
 import { usePouchInventory } from '@/hooks/usePouchInventory';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import {useState} from 'react'
+import {useState} from 'react';
 
 export default function Invent() {
   const [quantity, setQuantity] = useState(0);
@@ -54,7 +54,7 @@ export default function Invent() {
         <input 
           type="number" 
           name="quantity"
-          min={1}
+          min={100}
           value={quantity}
           onChange={(e) => setQuantity(Number(e.target.value))}
           placeholder="quantity"
