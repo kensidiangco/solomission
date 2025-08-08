@@ -81,7 +81,8 @@ export default function PouchOut() {
           className='w-full px-4 py-3 rounded-lg bg-gray-900/20 text-gray-900 placeholder-gray-700/50 backdrop-blur bg-clip-padding focus:outline-none focus:bg-gray-900/25 transition-colors' 
         >
           <option value="">Select Purpose (optional)</option>
-          <option value="free">Selling</option>
+          <option value="Sell">Sell</option>
+          <option value="Give">Give</option>
         </select>    
         
         <label className="block mb-1 text-gray-700">Given</label>

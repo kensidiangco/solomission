@@ -18,21 +18,21 @@ type Props = {
 
 const PouchOutLogTable: React.FC<Props> = ({items}) => {
   return (
-    <table className="table-auto uppercase">
+    <table className="table-auto">
         <thead>
             <tr>
                 <th className="px-4 py-2 text-stone-600">GETTER</th>
                 <th className="px-4 py-2 text-stone-600">SIZE</th>
                 <th className="px-4 py-2 text-stone-600">QTY</th>
                 <th className="px-4 py-2 text-stone-600">PURPOSE</th>
-                <th className="px-4 py-2 text-stone-600">GIVEN BY (OPTIONAL)</th>
+                <th className="px-4 py-2 text-stone-600">GIVEN BY (Optional)</th>
                 <th className="px-4 py-2 text-stone-600">DATE CREATED</th>
                 <th className="px-4 py-2 text-stone-600">STATUS</th>
             </tr>
         </thead>
         <tbody>
             {items.map(item => (
-                <tr key={item.id}>
+                <tr key={item.id} className="uppercase">
                     <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">{item.getter}</td>
                     <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">{item.pouch.size}</td>
                     <td className="border border-stone-500 px-4 py-2 text-stone-600 font-medium">{item.quantity_formatted}</td>
