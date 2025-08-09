@@ -32,9 +32,9 @@ export default function RootLayout({
         {/* <Tab /> */}
 
         <div className="">
-          <ClientLayoutWrapper>
+          {/* <ClientLayoutWrapper> */}
             {children}
-          </ClientLayoutWrapper>
+          {/* </ClientLayoutWrapper> */}
         </div>
           
       </body>

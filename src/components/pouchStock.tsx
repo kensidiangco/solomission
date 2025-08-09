@@ -14,18 +14,34 @@ interface Props {
 
 const PouchStock: React.FC<Props> = ({items}) => {
   return (
-    <div className="">
-<p className="font-bold text-2xl text-stone-800 my-4">Stock</p>
+    <>
+        <div className="bg-white border rounded-lg shadow-sm">
 
-    <div className="flex flex-col gap-5 bg-gradient-to-r from-stone-100 to-slate-50 rounded-t-xl shadow p-4">
-        {items.map(item => (
-            <div className="flex flex-col gap-2 text-stone-800" key={item.id}>
-                <p className="font-bold text-xl uppercase">{item.size}</p>
-                <p className="">{item.quantity_formatted}</p>
-            </div>
-        ))}
-    </div>
-</div>
+            <table className="min-w-full divide-y">
+                <thead className="bg-gray-50">
+                <tr>
+                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-700">Size</th>
+                    <th className="px-6 py-3 text-left text-sm font-medium text-gray-700">Quantity</th>
+                </tr>
+                </thead>
+                <tbody className="divide-y">
+                    {items.map(item => (
+
+                        <tr className="odd:bg-white even:bg-gray-50" key={item.id}>
+                            <td className="px-6 py-4 text-sm">{item.size}</td>
+                            <td className="px-6 py-4 text-sm">{item.quantity_formatted}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+
+            
+        </div>
+        <div className="p-4 border rounded-lg bg-gray-50">
+            <p className="text-sm text-gray-600">Total stock: 1,000</p>
+            <p className="text-sm text-gray-600">Last updated: 2025-08-09</p>
+        </div>
+    </>
   )
 }
 
