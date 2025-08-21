@@ -24,7 +24,7 @@ export function usePouchOutLogInventory() {
 }
 
 interface pouchItem {
-    id: number
+    id: number;
     size: string;
     quantity: number;
     date_created: string;
@@ -38,6 +38,28 @@ export function usePouchInventory() {
         pouch: Array.isArray(data) ? data : [],
         isPouchLoading: isLoading,
         isPouchError: error,
+        mutate,
+    };
+}
+
+interface recentPouchLogs {
+    id: number;
+    getter: string;
+    quantity: string;
+    purpose: string;
+    status: string;
+    given: string;
+    date_created: string;
+    pouch: string[];
+}
+
+export function useRecentPouchLogs() {
+    const { data, error, isLoading, mutate } = useSWR<recentPouchLogs[]>('/latestlog', fetcher);
+
+    return {
+        recentPouch: Array.isArray(data) ? data : [],
+        isRecentPouchLoading: isLoading,
+        isRecentPouchError: error,
         mutate,
     };
 }
