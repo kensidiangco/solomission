@@ -19,7 +19,7 @@ export default function Pouch() {
                 <p className="text-2xl font-bold"><Link href={"/"}>📦</Link> Pouch Inventory System</p>
                 <nav className="text-gray-600 hidden md:flex gap-6">
                     <Link href={"/pouch/invent"} className="cursor-pointer">Invent</Link>
-                    <Link href={"/pouch/out"} className="cursor-pointer">Outvent</Link>
+                    <Link href={"/pouch/outvent"} className="cursor-pointer">Outvent</Link>
                     {/* <Link href={""} className="cursor-pointer">Settings</Link> */}
                 </nav>
                 </header>
