@@ -16,9 +16,15 @@ export default function PouchOut() {
   const { pouch } = usePouchInventory();
   const router = useRouter();
 
+  const getNow = () => {
+    return new Date().toISOString().slice(0, 19).replace("T", " ");
+  };
+  
   // Single form submit
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const now = getNow();
+
     await axios.post(`${process.env.NEXT_PUBLIC_API_URL}out/`, {
       getter,
       quantity,
@@ -26,7 +32,9 @@ export default function PouchOut() {
       status,
       given,
       pouch: size,
+      date_created: now,
     });
+    
     router.push('/pouch');
   };
 
@@ -39,7 +47,7 @@ export default function PouchOut() {
       >
         <div className='flex items-center justify-between'>
           <p className='text-2xl font-bold'>Stock Out</p>
-          <Link href={"/pouch/outvent/bulk_upload"} className="font-bold bg-stone-800 hover:bg-stone-600 p-2 text-white rounded cursor-pointer transition">Bulk Upload</Link>
+          <Link href={"/pouch/outbound/bulk_upload"} className="font-bold bg-stone-800 hover:bg-stone-600 p-2 text-white rounded cursor-pointer transition">Bulk Upload</Link>
         </div>
 
         <label className="block mb-1 text-gray-700">Getter</label>

@@ -18,8 +18,8 @@ export default function Pouch() {
                 <header className="flex items-center justify-between mb-6">
                 <p className="text-2xl font-bold"><Link href={"/"}>📦</Link> Pouch Inventory System</p>
                 <nav className="text-gray-600 hidden md:flex gap-6">
-                    <Link href={"/pouch/invent"} className="cursor-pointer">Invent</Link>
-                    <Link href={"/pouch/outvent"} className="cursor-pointer">Outvent</Link>
+                    <Link href={"/pouch/inbound"} className="cursor-pointer">Inbound</Link>
+                    <Link href={"/pouch/outbound"} className="cursor-pointer">Outbound</Link>
                     {/* <Link href={""} className="cursor-pointer">Settings</Link> */}
                 </nav>
                 </header>
@@ -31,12 +31,12 @@ export default function Pouch() {
                     </section>
                     
                     <section className="md:col-span-2">
-                        <h2 className="text-3xl font-semibold mb-4">Outlog Pouch</h2>
+                        <h2 className="text-3xl font-semibold mb-4">Outbound Pouch</h2>
                         <PouchOutLogTable items={pouchOutLog} />
                     </section>
                 
                     <aside className="space-y-4">
-                        <h2 className="text-3xl font-semibold">Recent Outlog</h2>
+                        <h2 className="text-3xl font-semibold">Recent Outbound</h2>
 
                         <RecentPouchLog items={recentPouch} />
 
