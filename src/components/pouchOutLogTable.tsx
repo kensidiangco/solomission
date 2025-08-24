@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 
 type PouchSize = "Small" | "Medium" | "Large";
 type Status = "Free" | "Not Paid" | "Paid";
@@ -22,12 +22,31 @@ const PouchOutLogTable: React.FC<Props> = ({items}) => {
     const [search, setSearch] = useState("");
     const [statusFilter, setStatusFilter] = useState<"All" | Status>("All");
     const [currentPage, setCurrentPage] = useState(1);
-    const itemsPerPage = 5; // change this if you want more/less rows per page
+    const itemsPerPage = 5;
+    const [clickedPouch, setCLickedPouch] = useState<number | null>(null);
+
+    // NEW: for smooth animation
+    const [isVisible, setIsVisible] = useState(false);
+
+    useEffect(() => {
+        if (clickedPouch) {
+            setIsVisible(true); // open animation
+        }
+    }, [clickedPouch]);
+
+    const handleClose = () => {
+        setIsVisible(false); // play closing animation
+        setTimeout(() => setCLickedPouch(null), 300); // wait for transition to finish
+    };
+
+    const handleMarkAsPaid = (id: number) => {
+        console.log(`Marking pouch with ID ${id} as paid.`);
+    };
 
     const statusColors: Record<Status, string> = {
-        Free: "bg-green-100 text-green-800",
+        "Free": "bg-green-100 text-green-800",
         "Not Paid": "bg-red-100 text-red-800",
-        Paid: "bg-blue-100 text-blue-800",
+        "Paid": "bg-blue-100 text-blue-800",
     };
 
     const filteredOutlogs = useMemo(() => {
@@ -42,7 +61,6 @@ const PouchOutLogTable: React.FC<Props> = ({items}) => {
         });
     }, [items, search, statusFilter]);
 
-    // pagination logic
     const totalPages = Math.ceil(filteredOutlogs.length / itemsPerPage);
     const paginatedOutlogs = filteredOutlogs.slice(
         (currentPage - 1) * itemsPerPage,
@@ -62,7 +80,7 @@ const PouchOutLogTable: React.FC<Props> = ({items}) => {
                     value={search}
                     onChange={(e) => {
                         setSearch(e.target.value);
-                        setCurrentPage(1); // reset page on search
+                        setCurrentPage(1);
                     }}
                     placeholder="Search..."
                     className="pl-10 pr-3 py-2 border rounded-lg text-sm outline-none"
@@ -73,7 +91,7 @@ const PouchOutLogTable: React.FC<Props> = ({items}) => {
                     value={statusFilter}
                     onChange={(e) => {
                         setStatusFilter(e.target.value as any);
-                        setCurrentPage(1); // reset page on filter change
+                        setCurrentPage(1);
                     }}
                     className="py-2 px-3 border rounded-lg text-sm"
                 >
@@ -87,7 +105,7 @@ const PouchOutLogTable: React.FC<Props> = ({items}) => {
 
         {/* Table */}
         <div className="bg-white border rounded-lg shadow-sm overflow-x-auto">
-            <table className="min-w-full table-fixed text-sm text-left">
+            <table className="min-w-full table-fixed text-sm text-left capitalize">
                 <thead className="bg-gray-50">
                     <tr>
                     <th className="px-4 py-3">Date Created</th>
@@ -95,18 +113,22 @@ const PouchOutLogTable: React.FC<Props> = ({items}) => {
                     <th className="px-4 py-3">Pouch Size</th>
                     <th className="px-4 py-3">Quantity</th>
                     <th className="px-4 py-3">Purpose</th>
+                    <th className="px-4 py-3">Given</th>
                     <th className="px-4 py-3">Status</th>
                     </tr>
                 </thead>
                 
                 <tbody className="divide-y">
                     {paginatedOutlogs.map((o) => (
-                        <tr key={o.id} className="hover:bg-gray-50">
+                        <tr key={o.id} className="hover:bg-gray-50" 
+                            onClick={() => setCLickedPouch(o.id)} 
+                            style={{cursor: 'pointer'}}>
                             <td className="px-4 py-3 align-top">{o.date_created}</td>
                             <td className="px-4 py-3 align-top">{o.getter}</td>
                             <td className="px-4 py-3 align-top">{o.pouch.size}</td>
                             <td className="px-4 py-3 align-top">{o.quantity}</td>
                             <td className="px-4 py-3 align-top">{o.purpose}</td>
+                            <td className="px-4 py-3 align-top">{o.given}</td>
                             <td className="px-4 py-3 align-top">
                             <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusColors[o.status]}`}>{o.status}</span>
                             </td>
@@ -123,7 +145,7 @@ const PouchOutLogTable: React.FC<Props> = ({items}) => {
         </div>
 
         {/* Pagination */}
-        <div className="flex justify-center items-center gap-2 mt-4">
+        <div className="flex justify-center items-center gap-2 mt-4 flex-wrap">
             <button
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage((p) => p - 1)}
@@ -131,25 +153,102 @@ const PouchOutLogTable: React.FC<Props> = ({items}) => {
             >
                 Prev
             </button>
+            {(() => {
+                const maxVisible = 4;
+                let start = Math.max(1, currentPage - Math.floor(maxVisible / 2));
+                let end = start + maxVisible - 1;
 
-            {Array.from({ length: totalPages }, (_, i) => (
-                <button
-                    key={i}
-                    onClick={() => setCurrentPage(i + 1)}
-                    className={`px-3 py-1 border rounded ${currentPage === i + 1 ? "bg-gray-200 font-bold" : ""}`}
-                >
-                    {i + 1}
-                </button>
-            ))}
+                if (end > totalPages) {
+                    end = totalPages;
+                    start = Math.max(1, end - maxVisible + 1);
+                }
 
+                const pages = [];
+                for (let i = start; i <= end; i++) {
+                    pages.push(
+                    <button
+                        key={i}
+                        onClick={() => setCurrentPage(i)}
+                        className={`px-3 py-1 border rounded ${currentPage === i ? "bg-gray-200 font-bold" : ""}`}
+                    >
+                        {i}
+                    </button>
+                    );
+                }
+
+                return (
+                <>
+                    {start > 1 && (
+                    <>
+                        <button onClick={() => setCurrentPage(1)} className="px-3 py-1 border rounded">1</button>
+                        {start > 2 && <span className="px-2">...</span>}
+                    </>
+                    )}
+
+                    {pages}
+
+                    {end < totalPages && (
+                    <>
+                        {end < totalPages - 1 && <span className="px-2">...</span>}
+                        <button onClick={() => setCurrentPage(totalPages)} className="px-3 py-1 border rounded">{totalPages}</button>
+                    </>
+                    )}
+                </>
+                );
+            })()}
             <button
-                disabled={currentPage === totalPages}
+                disabled={currentPage === totalPages || totalPages === 0}
                 onClick={() => setCurrentPage((p) => p + 1)}
                 className="px-3 py-1 border rounded disabled:opacity-50"
             >
                 Next
             </button>
         </div>
+
+        {/* Smooth Modal */}
+        {clickedPouch && (
+            <div className={`fixed inset-0 backdrop-blur-sm flex items-center justify-center z-50 
+                transition-opacity duration-300 ${isVisible ? "opacity-100" : "opacity-0"}`}
+            >
+                <div className={`mt-4 p-4 border border-stone-600 rounded uppercase 
+                    absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
+                    shadow-lg z-50 bg-white/80 transition-all duration-300
+                    ${isVisible ? "scale-100 opacity-100" : "scale-95 opacity-0"}`}>
+                    
+                    <span className='flex flex-col justify-center items-center'>
+                        <h3 className="text-lg font-semibold mb-2">Pouch Details</h3>
+                        <p><strong>Getter:</strong> {items.find(o => o.id === clickedPouch)?.getter}</p>
+                        <p><strong>Pouch Size:</strong> {items.find(o => o.id === clickedPouch)?.pouch.size}</p>
+                        <p><strong>Quantity:</strong> {items.find(o => o.id === clickedPouch)?.quantity}</p>
+                        <p><strong>Purpose:</strong> {items.find(o => o.id === clickedPouch)?.purpose}</p>
+                        <p><strong>Given:</strong> {items.find(o => o.id === clickedPouch)?.given}</p>
+                        <p><strong>Status:</strong> 
+                            <span className={`ml-1 font-bold rounded ${statusColors[items.find(o => o.id === clickedPouch)?.status as Status]}`}>
+                                {items.find(o => o.id === clickedPouch)?.status}
+                            </span>
+                        </p>
+                        <p><strong>Date Created:</strong> {items.find(o => o.id === clickedPouch)?.date_created}</p>
+                        
+                        <span className='flex gap-3'>
+                            <button 
+                                onClick={handleClose} 
+                                className="mt-3 p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300 cursor-pointer"
+                            >
+                                Close   
+                            </button>
+                            {items.find(o => o.id === clickedPouch)?.status === "Not Paid" && (
+                                <button
+                                    onClick={() => handleMarkAsPaid(clickedPouch)}
+                                    className="mt-3 p-2 bg-green-500 text-white rounded hover:bg-green-600 transition duration-300 cursor-pointer"
+                                >
+                                    Mark as Paid
+                                </button>
+                            )}
+                        </span>
+                    </span>
+                </div>
+            </div>
+        )}
     </>
     )
 }

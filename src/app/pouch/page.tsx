@@ -12,7 +12,7 @@ export default function Pouch() {
     const { recentPouch, isRecentPouchLoading, isRecentPouchError } = useRecentPouchLogs(); 
 
     return (
-        <div className="h-screen p-20 flex flex-center justify-center items-center">
+        <div className="h-screen p-20 flex flex-center justify-center items-center relative">
 
             <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow p-6">
                 <header className="flex items-center justify-between mb-6">
