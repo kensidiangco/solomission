@@ -1,3 +1,5 @@
+'use client';
+
 import useSWR from 'swr';
 import fetcher from "@/lib/fetcher";
 
@@ -62,4 +64,27 @@ export function useRecentPouchLogs() {
         isRecentPouchError: error,
         mutate,
     };
+}
+
+interface pouchItem {
+  id: number;
+  size: string;
+  quantity: number;
+  date_created: string;
+  date_updated: string;
+}
+
+export function usePouchById(id?: number) {
+  // Only fetch if id is provided
+  const { data, error, isLoading, mutate } = useSWR<pouchItem>(
+    id ? `pouch/${id}/` : null,
+    fetcher
+  );
+
+  return {
+    pouch: data,
+    isPouchLoading: isLoading,
+    isPouchError: error,
+    mutate,
+  };
 }
