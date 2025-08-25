@@ -4,22 +4,34 @@ import { usePouchInventory } from '@/hooks/usePouchInventory';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import {useState} from 'react';
+import toast from 'react-hot-toast';
+import { mutate } from 'swr';
 
 export default function Invent() {
   const [quantity, setQuantity] = useState(0);
   const [pouchId, setPouchId] = useState('');
   const { pouch, isPouchLoading } = usePouchInventory();
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    
-    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}in/`, {
-      pouch: pouchId,
-      quantity
-    });
-
-    router.push('/pouch/')
+    setLoading(true);
+    try{
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}in/`, {
+        pouch: pouchId,
+        quantity
+      });
+      toast.success("✅ Inbound Successfully!");
+      // ✅ Refresh the SWR cache
+      mutate(`/`);
+      router.push('/pouch/')
+    } catch (error: any) {
+      console.error("Inbound failed:", error.response?.data);
+      toast.error("❌ Failed to inbound!");
+    } finally {
+      setTimeout(() => setLoading(false), 1000); // small delay for spinner 
+    }
   };
 
   return (
@@ -61,7 +73,16 @@ export default function Invent() {
           className='w-full px-4 py-3 rounded-lg bg-gray-900/20 text-gray-900 placeholder-gray-700/50 focus:outline-none focus:bg-gray-900/25 transition-colors'
         />
 
-        <input type="submit" value="Submit" className='w-full bg-blue-800 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg transition-colors cursor-pointer'/>
+        <input 
+          type="submit" 
+          value="Submit" 
+          disabled={loading}
+          className={`mt-3 w-full p-2 rounded text-white transition ${
+            loading
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-blue-500 hover:bg-blue-600"
+          }`}
+        />
       </form>
 
     </div>

@@ -1,9 +1,6 @@
 'use client';
 
-import axios from 'axios';
 import React, { useMemo, useState, useEffect } from 'react'
-import toast from "react-hot-toast";
-import { mutate } from "swr";
 import PouchModal from './pouchModal';
 
 type PouchSize = "Small" | "Medium" | "Large";
@@ -215,6 +212,7 @@ const PouchOutLogTable: React.FC<Props> = ({items}) => {
                 setCLickedPouch={setCLickedPouch}
                 isVisible={isVisible}
                 handleClose={handleClose}
+                loadingId={loadingId}
                 setLoadingId={setLoadingId}
             />
         )}

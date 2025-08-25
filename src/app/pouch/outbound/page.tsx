@@ -5,6 +5,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react'
+import toast from 'react-hot-toast';
 
 export default function PouchOut() {
   const [getter, setGetter] = useState('');
@@ -14,6 +15,7 @@ export default function PouchOut() {
   const [given, setGiven] = useState('');
   const [status, setStatus] = useState('');
   const { pouch } = usePouchInventory();
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const getNow = () => {
@@ -23,19 +25,29 @@ export default function PouchOut() {
   // Single form submit
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
+
     const now = getNow();
 
-    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}out/`, {
-      getter,
-      quantity,
-      purpose,
-      status,
-      given,
-      pouch: size,
-      date_created: now,
-    });
+    try {
+      await axios.post(`${process.env.NEXT_PUBLIC_API_URL}out/`, {
+        getter,
+        quantity,
+        purpose,
+        status,
+        given,
+        pouch: size,
+        date_created: now,
+      });
+      toast.success("Outbound Successfully!");
+      router.push('/pouch');
+    } catch (error: any) {
+        console.error("Submission failed:", error.response?.data);
+        toast.error("Failed to outbound!",);
+    } finally {
+        setTimeout(() => setLoading(false), 1000); // small delay for spinner
+    }
     
-    router.push('/pouch');
   };
 
   return (
@@ -109,7 +121,12 @@ export default function PouchOut() {
         <input 
           type="submit" 
           value="Submit" 
-          className='w-full bg-blue-800 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg cursor-pointer'
+          disabled={loading}
+          className={`mt-3 w-full p-2 rounded text-white transition ${
+            loading
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-blue-500 hover:bg-blue-600"
+          }`}
         />
       </form>
 

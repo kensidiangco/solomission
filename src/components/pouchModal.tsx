@@ -8,10 +8,10 @@ import Link from 'next/link';
 
 type Status = "Free" | "Not Paid" | "Paid";
 
-const PouchModal: React.FC<Props> = ({items, isVisible, clickedPouch, handleClose, setLoadingId}) => {
+const PouchModal: React.FC<Props> = ({items, isVisible, clickedPouch, handleClose, loadingId, setLoadingId}) => {
     const statusColors: Record<Status, string> = {
         "Free": "bg-green-200 text-green-800",
-        "Not Paid": "bg-yellow-200 text-yellow-800",
+        "Not Paid": "bg-red-200 text-red-800",
         "Paid": "bg-blue-200 text-blue-800",
     };
 
