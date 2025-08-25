@@ -1,6 +1,9 @@
 'use client';
 
+import axios from 'axios';
 import React, { useMemo, useState, useEffect } from 'react'
+import toast from "react-hot-toast";
+import { mutate } from "swr";
 
 type PouchSize = "Small" | "Medium" | "Large";
 type Status = "Free" | "Not Paid" | "Paid";
@@ -24,6 +27,7 @@ const PouchOutLogTable: React.FC<Props> = ({items}) => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 5;
     const [clickedPouch, setCLickedPouch] = useState<number | null>(null);
+    const [loadingId, setLoadingId] = useState<number | null>(null);
 
     // NEW: for smooth animation
     const [isVisible, setIsVisible] = useState(false);
@@ -39,9 +43,29 @@ const PouchOutLogTable: React.FC<Props> = ({items}) => {
         setTimeout(() => setCLickedPouch(null), 300); // wait for transition to finish
     };
 
-    const handleMarkAsPaid = (id: number) => {
-        console.log(`Marking pouch with ID ${id} as paid.`);
+    const handleMarkAsPaid = async (id: number) => {
+        const index = items.findIndex(o => o.id === id);
+
+        if (index !== -1) {
+            setLoadingId(id); // show spinner for this button
+            try {
+                await axios.put(`${process.env.NEXT_PUBLIC_API_URL}update/${id}/`, {
+                    status: "Paid",
+                });
+            } catch (error: any) {
+                console.error("Update failed:", error.response?.data);
+                toast.error("❌ Failed to update item!");
+            } finally {
+                setTimeout(() => {
+                    setLoadingId(null); 
+                    mutate('outlog/'); // refresh data
+                    toast.success("Item marked as Paid!");
+                    handleClose(); // close modal
+            }, 1000);
+            }
+        }
     };
+
 
     const statusColors: Record<Status, string> = {
         "Free": "bg-green-100 text-green-800",
@@ -239,9 +263,14 @@ const PouchOutLogTable: React.FC<Props> = ({items}) => {
                             {items.find(o => o.id === clickedPouch)?.status === "Not Paid" && (
                                 <button
                                     onClick={() => handleMarkAsPaid(clickedPouch)}
-                                    className="mt-3 p-2 bg-green-500 text-white rounded hover:bg-green-600 transition duration-300 cursor-pointer"
+                                    disabled={loadingId === clickedPouch}
+                                    className={`mt-3 p-2 rounded text-white ${
+                                    loadingId === clickedPouch
+                                        ? "bg-gray-400 cursor-not-allowed"
+                                        : "bg-blue-500 hover:bg-blue-600"
+                                    }`}
                                 >
-                                    Mark as Paid
+                                    {loadingId === clickedPouch ? "Updating..." : "Mark as Paid"}
                                 </button>
                             )}
                         </span>

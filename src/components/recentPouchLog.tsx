@@ -19,7 +19,7 @@ type Props = {
 const RecentPouchLog: React.FC<Props> = ({items}) => {
   return (
     <div className="bg-white border rounded-lg shadow-sm overflow-hidden">
-        <ul>
+        {/* <ul>
             {items.map((item) => (
                 <li className="px-4 py-4 border-b last:border-b-0" key={item.id}>
                     <div className="text-sm text-gray-700 font-medium">{item.date_created}</div>
@@ -31,7 +31,7 @@ const RecentPouchLog: React.FC<Props> = ({items}) => {
                     <div className="text-sm text-gray-700 font-medium">No recent data found.</div>
                 </li>
             )}
-        </ul>
+        </ul> */}
     </div>
   )
 }

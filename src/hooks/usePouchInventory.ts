@@ -54,7 +54,7 @@ interface recentPouchLogs {
 }
 
 export function useRecentPouchLogs() {
-    const { data, error, isLoading, mutate } = useSWR<recentPouchLogs[]>('/latestlog', fetcher);
+    const { data, error, isLoading, mutate } = useSWR<recentPouchLogs[]>('latestlog/', fetcher);
 
     return {
         recentPouch: Array.isArray(data) ? data : [],
