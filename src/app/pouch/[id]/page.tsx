@@ -19,6 +19,7 @@ export default function PouchDetailPage() {
   const [status, setStatus] = useState("");
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   // ✅ Initialize form fields when pouch loads
   useEffect(() => {
@@ -50,7 +51,6 @@ export default function PouchDetailPage() {
       toast.success("✅ Item Updated!");
       // ✅ Refresh the SWR cache
       mutate(`pouch/${id}`);
-      router.push('/pouch/');
     } catch (error: any) {
       console.error("Update failed:", error.response?.data);
       toast.error("❌ Failed to update item!");
@@ -58,6 +58,24 @@ export default function PouchDetailPage() {
       setTimeout(() => setLoading(false), 1000); // small delay for spinner
     }
   };
+
+  const handlePouchDelete = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    if (!confirm("Are you sure you want to delete this item?")) return;
+      setDeleteLoading(true);
+      try {
+        await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}delete/${id}/`);
+        toast.success("✅ Item Deleted!");
+        mutate("pouch/");
+        router.push("/pouch");
+      } catch (error) {
+        console.error("Delete failed:", error); 
+        toast.error("❌ Failed to delete item!");
+      } finally {
+        setTimeout(() => setLoading(false), 1000); // small delay for spinner
+      }
+    }
 
   if (isPouchLoading) return <p>Loading...</p>;
   if (isPouchError) return <p>Error loading pouch</p>;
@@ -71,6 +89,18 @@ export default function PouchDetailPage() {
       >
         <div className="flex items-center justify-between">
           <p className="text-2xl font-bold">Stock Out</p>
+          <button
+            onClick={handlePouchDelete}
+            disabled={loading}
+            className={`cursor-pointer p-2 rounded text-white transition ${
+              deleteLoading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-red-500 hover:bg-red-600"
+            }`}
+          >
+            {deleteLoading ? "Deleting..." : "Delete"}
+          </button>
+          
         </div>
 
         <label className="block mb-1 text-gray-700">Getter</label>
