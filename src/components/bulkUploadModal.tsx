@@ -4,7 +4,6 @@ import React, { useState } from 'react'
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import * as XLSX from 'xlsx';
-import Link from 'next/link';
 import toast from 'react-hot-toast';
 
 export default function BulkUploadModal() {
@@ -105,11 +104,11 @@ export default function BulkUploadModal() {
                 <div className="overflow-x-auto rounded-2xl border border-gray-300/40 shadow-inner max-h-80">
                 <table className="w-full text-sm text-gray-800 dark:text-gray-200">
                     <thead className="bg-white/50 dark:bg-slate-700/40 sticky top-0">
-                    <tr>
-                        {Object.keys(excelData[0]).map((key) => (
-                        <th key={key} className="px-4 py-2 text-left font-semibold">{key}</th>
-                        ))}
-                    </tr>
+                      <tr>
+                          {Object.keys(excelData[0]).map((key) => (
+                          <th key={key} className="px-4 py-2 text-left font-semibold">{key}</th>
+                          ))}
+                      </tr>
                     </thead>
                     <tbody>
                     {excelData.map((row, idx) => (

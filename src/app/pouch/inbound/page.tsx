@@ -45,22 +45,25 @@ export default function Invent() {
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-100 to-gray-200">
       
       {/* Header with Back */}
-      <header className="sticky top-0 z-50 bg-white/30 backdrop-blur-lg shadow-md border-b border-white/20">
-        <div className="max-w-4xl mx-auto flex items-center justify-between px-6 py-4">
+      <header className="sticky top-0 z-40 px-4">
+        <div className="mx-auto max-w-4xl mt-2 bg-white/70 backdrop-blur-xl shadow-lg rounded-2xl flex items-center justify-between px-4 py-3 border border-white/30">
+          {/* Back Button */}
           <button
             onClick={() => router.push('/pouch/')}
-            className="flex items-center gap-2 text-blue-600 hover:text-blue-800 transition cursor-pointer"
+            className="flex items-center gap-2 text-blue-600 font-medium hover:text-blue-800 cursor-pointer transition"
           >
             <ArrowLeft size={20} />
-            <span className="font-medium">Home</span>
+            Home
           </button>
-          <h1 className="ml-4 text-xl font-bold text-gray-800">📦 Stock Inbound</h1>
+
+          {/* Title */}
+          <h1 className="text-lg font-semibold text-gray-900">📦 Inbound</h1>
+
           <button
             onClick={() => router.push('/pouch/outbound')}
-            className="flex items-center gap-2 text-blue-600 hover:text-blue-800 transition cursor-pointer"
+            className="flex items-center gap-2 text-blue-600 font-medium hover:text-blue-800 cursor-pointer transition"
           >
-            {/* <ArrowRight size={20} /> */}
-            <span className="font-medium">Outbound</span>
+            🚚 Outbound
           </button>
         </div>
       </header>
@@ -81,7 +84,7 @@ export default function Invent() {
           onSubmit={handleSubmit}
           className="w-full max-w-md bg-white/20 backdrop-blur-2xl rounded-3xl border border-white/40 shadow-2xl p-8 space-y-5"
         >
-          <p className="text-2xl font-bold text-gray-800">📦 Stock In</p>
+          <p className="text-2xl font-bold text-gray-800">📦 Pouch Inbound</p>
 
           {/* Size Select */}
           <div>

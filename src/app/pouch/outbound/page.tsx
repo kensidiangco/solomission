@@ -16,7 +16,7 @@ function Modal({ isOpen, onClose, children }: { isOpen: boolean, onClose: () => 
       <div className="bg-white rounded-2xl shadow-2xl w-full max-w-2xl p-6 animate-slide-up">
         <div className="flex justify-between items-center border-b pb-3">
           <h2 className="text-lg font-bold">📤 Bulk Upload</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-800">✖</button>
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-800 cursor-pointer">✖</button>
         </div>
         <div className="mt-4">{children}</div>
       </div>
@@ -66,22 +66,27 @@ export default function PouchOut() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-200">
-      {/* Header with Back */}
-      <header className="sticky top-0 z-40 bg-white/30 backdrop-blur-lg shadow-md border-b border-white/20">
-        <div className="max-w-4xl mx-auto flex items-center justify-between px-6 py-4">
+      {/* iOS-like Header */}
+      <header className="sticky top-0 z-40 px-4">
+        <div className="mx-auto max-w-4xl mt-2 bg-white/70 backdrop-blur-xl shadow-lg rounded-2xl flex items-center justify-between px-4 py-3 border border-white/30">
+          {/* Back Button */}
           <button
             onClick={() => router.push('/pouch/')}
-            className="flex items-center gap-2 text-blue-600 hover:text-blue-800 transition cursor-pointer"
+            className="flex items-center gap-2 text-blue-600 font-medium hover:text-blue-800 transition cursor-pointer"
           >
             <ArrowLeft size={20} />
-            <span className="font-medium">Home</span>
+            Back
           </button>
-          <h1 className="ml-4 text-xl font-bold text-gray-800">📦 Stock Outbound</h1>
+
+          {/* Title */}
+          <h1 className="text-lg font-semibold text-gray-900">🚚 Outbound</h1>
+
+          {/* Bulk Upload Button */}
           <button
             onClick={() => setBulkModalOpen(true)}
-            className="font-semibold bg-gray-900 text-white px-4 py-2 rounded-xl hover:bg-gray-700 transition cursor-pointer"
+            className="px-4 py-1.5 rounded-xl text-sm font-semibold bg-blue-500 text-white shadow hover:bg-blue-600 transition cursor-pointer"
           >
-            Bulk Upload
+            Bulk
           </button>
         </div>
       </header>
@@ -102,7 +107,7 @@ export default function PouchOut() {
           className="w-full max-w-md bg-white/30 backdrop-blur-2xl rounded-3xl border border-white/40 shadow-xl p-8 space-y-5"
         >
           <div className="flex items-center justify-between">
-            <h1 className="text-2xl font-bold text-gray-900">📦 Stock Out</h1>
+            <h1 className="text-2xl font-bold text-gray-900">🚚 Pouch Outbound</h1>
           </div>
 
           {/* Getter */}
@@ -195,7 +200,7 @@ export default function PouchOut() {
             type="submit" 
             value={loading ? "Processing..." : "Submit"} 
             disabled={loading}
-            className={`mt-4 w-full py-3 rounded-xl text-white font-semibold shadow-md transition ${
+            className={`mt-4 w-full py-3 rounded-xl text-white font-semibold shadow-md transition cursor-pointer ${
               loading
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-blue-500 hover:bg-blue-600"
@@ -206,7 +211,6 @@ export default function PouchOut() {
 
       {/* Modal for Bulk Upload */}
       <Modal isOpen={bulkModalOpen} onClose={() => setBulkModalOpen(false)}>
-        {/* ⚡ Insert your bulk upload component/form here */}
         <BulkUploadModal />
       </Modal>
     </div>
