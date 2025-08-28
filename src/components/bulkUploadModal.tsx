@@ -7,7 +7,7 @@ import * as XLSX from 'xlsx';
 import Link from 'next/link';
 import toast from 'react-hot-toast';
 
-export default function BulkUpload() {
+export default function BulkUploadModal() {
   const [excelData, setExcelData] = useState<any[]>([]);
   const router = useRouter();
 
@@ -74,78 +74,65 @@ export default function BulkUpload() {
 
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}bulk/`, excelData);
-      toast.success("✅ Bulk data uploaded successfully!");
-      setTimeout(() => router.push("/pouch"), 1000); // small delay so toast shows
+      toast.success("Bulk data uploaded!");
+      setTimeout(() => {
+        router.push("/pouch");
+      }, 800); // small delay so toast is visible
     } catch (error: any) {
       console.error("Upload failed:", error.response?.data || error.message);
-      toast.error("❌ Upload failed, please check your file!");
+      toast.error("Upload failed!");
     }
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 to-slate-200 dark:from-slate-900 dark:to-slate-800 flex flex-col items-center p-6">
-      
-      {/* Header with Back */}
-      <div className="w-full max-w-3xl flex items-center justify-between mb-6">
-        <Link href="/pouch" className="text-blue-600 hover:text-blue-500 font-medium flex items-center gap-2">
-          ← Back
-        </Link>
-        <h1 className="text-2xl font-bold text-gray-900 dark:text-white">📑 Bulk Upload</h1>
-        <div></div>
-      </div>
-
-      {/* Upload Card */}
-      <div className="w-full max-w-3xl bg-white/30 dark:bg-white/10 backdrop-blur-2xl border border-white/40 shadow-2xl rounded-3xl p-8 space-y-6">
-        
-        {/* File Upload */}
-        <div className="flex flex-col items-center gap-4">
-          <input 
+    <div>
+        <p className="text-gray-600">Upload your Excel file here for bulk outbound logging.</p>
+        <input 
             type="file" 
             accept=".xlsx, .xls" 
             onChange={handleFileUpload} 
-            className="block w-full text-sm text-gray-900 dark:text-gray-200 file:mr-4 file:py-2 file:px-4 
+            className="cursor-pointer block w-full text-sm text-gray-900 dark:text-gray-200 file:mr-4 file:py-2 file:px-4 
                        file:rounded-full file:border-0 
                        file:text-sm file:font-semibold 
                        file:bg-blue-50 file:text-blue-600 
-                       hover:file:bg-blue-100 cursor-pointer"
+                       hover:file:bg-blue-100"
           />
-        </div>
-
-        {/* Preview Table */}
-        {excelData.length > 0 && (
-          <>
-            <div className="overflow-x-auto rounded-2xl border border-gray-300/40 shadow-inner max-h-80">
-              <table className="w-full text-sm text-gray-800 dark:text-gray-200">
-                <thead className="bg-white/50 dark:bg-slate-700/40 sticky top-0">
-                  <tr>
-                    {Object.keys(excelData[0]).map((key) => (
-                      <th key={key} className="px-4 py-2 text-left font-semibold">{key}</th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody>
-                  {excelData.map((row, idx) => (
-                    <tr key={idx} className="odd:bg-white/30 even:bg-white/10 dark:odd:bg-slate-800/20 dark:even:bg-slate-700/20">
-                      {Object.values(row).map((val, i) => (
-                        <td key={i} className="px-4 py-2">{val as string}</td>
-                      ))}
+        
+        <div className='mt-6 flex flex-col gap-4'>
+            {/* Preview Table */}
+            {excelData.length > 0 && (
+            <>
+                <div className="overflow-x-auto rounded-2xl border border-gray-300/40 shadow-inner max-h-80">
+                <table className="w-full text-sm text-gray-800 dark:text-gray-200">
+                    <thead className="bg-white/50 dark:bg-slate-700/40 sticky top-0">
+                    <tr>
+                        {Object.keys(excelData[0]).map((key) => (
+                        <th key={key} className="px-4 py-2 text-left font-semibold">{key}</th>
+                        ))}
                     </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                    </thead>
+                    <tbody>
+                    {excelData.map((row, idx) => (
+                        <tr key={idx} className="odd:bg-white/30 even:bg-white/10 dark:odd:bg-slate-800/20 dark:even:bg-slate-700/20">
+                        {Object.values(row).map((val, i) => (
+                            <td key={i} className="px-4 py-2">{val as string}</td>
+                        ))}
+                        </tr>
+                    ))}
+                    </tbody>
+                </table>
+                </div>
 
-            {/* Upload Button */}
-            <button 
-              onClick={handleBulkUpload} 
-              className="w-full py-3 rounded-xl text-white font-semibold shadow-lg transition 
-                         bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600"
-            >
-              🚀 Upload to API
-            </button>
-          </>
-        )}
-      </div>
+                {/* Upload Button */}
+                <button 
+                onClick={handleBulkUpload} 
+                className="w-full py-3 rounded-xl text-white font-semibold shadow-lg transition bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600 cursor-pointer"
+                >
+                🚀 Upload to API
+                </button>
+            </>
+            )}
+        </div>
     </div>
   )
 }

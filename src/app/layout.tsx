@@ -35,7 +35,7 @@ export default function RootLayout({
         <div className="">
           {/* <ClientLayoutWrapper> */}
             {children}
-            <ToasterProvider /> {/* 👈 MUST be here */}
+            <ToasterProvider />
           {/* </ClientLayoutWrapper> */}
         </div>
           

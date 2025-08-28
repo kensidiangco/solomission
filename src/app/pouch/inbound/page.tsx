@@ -3,88 +3,133 @@
 import { usePouchInventory } from '@/hooks/usePouchInventory';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
-import {useState} from 'react';
+import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { mutate } from 'swr';
+import { ArrowLeft, ArrowRight } from 'lucide-react'; // 👈 for back button icon
 
 export default function Invent() {
   const [quantity, setQuantity] = useState(0);
   const [pouchId, setPouchId] = useState('');
-  const { pouch, isPouchLoading } = usePouchInventory();
+  const { pouch } = usePouchInventory();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     setLoading(true);
-    try{
+
+    try {
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}in/`, {
         pouch: pouchId,
-        quantity
+        quantity,
       });
+
       toast.success("✅ Inbound Successfully!");
-      // ✅ Refresh the SWR cache
-      mutate(`/`);
-      router.push('/pouch/')
+      mutate(`${process.env.NEXT_PUBLIC_API_URL}pouch/`);
+
+      // reset form
+      setQuantity(0);
+      setPouchId("");
+
+      router.push('/pouch/');
     } catch (error: any) {
       console.error("Inbound failed:", error.response?.data);
-      toast.error("❌ Failed to inbound!");
+      toast.error(error.response?.data?.detail || "❌ Failed to inbound!");
     } finally {
-      setTimeout(() => setLoading(false), 1000); // small delay for spinner 
+      setTimeout(() => setLoading(false), 800);
     }
   };
 
   return (
-    <div className='min-h-screen md:flex md:gap-50 justify-center md:items-center'>
-      <div className='p-2 text-center flex flex-col gap-4'>
-        <p className='font-bold text-5xl'>Lahat ng pouch na papasok</p>
-        <p className='font-bold text-4xl'>Dito ila-log</p>
-        <p className='font-bold text-3xl'>Para lamang alam ko</p>
-      </div>
+    <div className="min-h-screen flex flex-col bg-gradient-to-br from-gray-100 to-gray-200">
+      
+      {/* Header with Back */}
+      <header className="sticky top-0 z-50 bg-white/30 backdrop-blur-lg shadow-md border-b border-white/20">
+        <div className="max-w-4xl mx-auto flex items-center justify-between px-6 py-4">
+          <button
+            onClick={() => router.push('/pouch/')}
+            className="flex items-center gap-2 text-blue-600 hover:text-blue-800 transition cursor-pointer"
+          >
+            <ArrowLeft size={20} />
+            <span className="font-medium">Home</span>
+          </button>
+          <h1 className="ml-4 text-xl font-bold text-gray-800">📦 Stock Inbound</h1>
+          <button
+            onClick={() => router.push('/pouch/outbound')}
+            className="flex items-center gap-2 text-blue-600 hover:text-blue-800 transition cursor-pointer"
+          >
+            {/* <ArrowRight size={20} /> */}
+            <span className="font-medium">Outbound</span>
+          </button>
+        </div>
+      </header>
 
-      <form onSubmit={handleSubmit} className="max-w-md w-full bg-gradient-to-br from-white/60 to-white/30 backdrop-blur-lg bg-clip-padding rounded-2xl border border-white/30 shadow-2xl p-8 space-y-4">
-        <p className='text-2xl font-bold'>Stock In</p>
-        
-        <label className="block mb-2 text-gray-700">Size</label>
-        <select 
-          value={pouchId}
-          onChange={(e) => setPouchId(e.target.value)}
-          name="size" 
-          className='capitalize w-full px-4 py-3 rounded-lg bg-gray-900/20 text-gray-900 placeholder-gray-700/50 backdrop-blur bg-clip-padding focus:outline-none focus:bg-gray-900/25 transition-colors'
-          required  
+      {/* Content */}
+      <div className="flex flex-col md:flex-row items-center justify-center gap-12 p-6 flex-1">
+        {/* Left side text */}
+        <div className="text-center md:text-left space-y-3 max-w-lg">
+          <p className="font-extrabold text-5xl bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-500">
+            Lahat ng pouch na papasok
+          </p>
+          <p className="font-semibold text-3xl text-gray-800">Dito ila-log</p>
+          <p className="font-medium text-xl text-gray-600">Para lamang alam ko</p>
+        </div>
+
+        {/* Form */}
+        <form
+          onSubmit={handleSubmit}
+          className="w-full max-w-md bg-white/20 backdrop-blur-2xl rounded-3xl border border-white/40 shadow-2xl p-8 space-y-5"
         >
+          <p className="text-2xl font-bold text-gray-800">📦 Stock In</p>
 
-          <option value="">Select Size</option>  
-          {pouch.map(size => (
-            <option value={size.id} key={size.id}>{size.size}</option>  
-          ))}
-          
-        </select>    
-        
-        <label className="block mb-2 text-gray-700">Quantity</label>
-        
-        <input 
-          type="number" 
-          name="quantity"
-          min={100}
-          value={quantity}
-          onChange={(e) => setQuantity(Number(e.target.value))}
-          placeholder="quantity"
-          className='w-full px-4 py-3 rounded-lg bg-gray-900/20 text-gray-900 placeholder-gray-700/50 focus:outline-none focus:bg-gray-900/25 transition-colors'
-        />
+          {/* Size Select */}
+          <div>
+            <label className="block mb-2 text-gray-700 font-medium">Size</label>
+            <select
+              value={pouchId}
+              onChange={(e) => setPouchId(e.target.value)}
+              name="size"
+              className="w-full px-4 py-3 rounded-xl bg-white/40 text-gray-900 placeholder-gray-500 backdrop-blur-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+              required
+            >
+              <option value="">Select Size</option>
+              {pouch.map((size) => (
+                <option value={size.id} key={size.id}>
+                  {size.size}
+                </option>
+              ))}
+            </select>
+          </div>
 
-        <input 
-          type="submit" 
-          value="Submit" 
-          disabled={loading}
-          className={`mt-3 w-full p-2 rounded text-white transition ${
-            loading
-              ? "bg-gray-400 cursor-not-allowed"
-              : "bg-blue-500 hover:bg-blue-600"
-          }`}
-        />
-      </form>
+          {/* Quantity */}
+          <div>
+            <label className="block mb-2 text-gray-700 font-medium">Quantity</label>
+            <input
+              type="number"
+              name="quantity"
+              min={100}
+              value={quantity}
+              onChange={(e) => setQuantity(Number(e.target.value))}
+              placeholder="Enter quantity"
+              className="w-full px-4 py-3 rounded-xl bg-white/40 text-gray-900 placeholder-gray-500 backdrop-blur-lg focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+            />
+          </div>
 
+          {/* Submit */}
+          <button
+            type="submit"
+            disabled={loading}
+            className={`mt-4 w-full py-3 rounded-xl text-white font-semibold shadow-lg transition cursor-pointer ${
+              loading
+                ? "bg-gray-400 cursor-not-allowed"
+                : "bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-600 hover:to-indigo-600"
+            }`}
+          >
+            {loading ? "Processing..." : "Submit"}
+          </button>
+        </form>
+      </div>
     </div>
-  )
+  );
 }

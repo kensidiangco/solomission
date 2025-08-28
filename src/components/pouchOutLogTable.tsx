@@ -2,6 +2,7 @@
 
 import React, { useMemo, useState, useEffect } from 'react'
 import PouchModal from './pouchModal';
+import { X } from "lucide-react";
 
 type PouchSize = "Small" | "Medium" | "Large";
 type Status = "Free" | "Not Paid" | "Paid";
@@ -41,12 +42,10 @@ const PouchOutLogTable: React.FC<Props> = ({items}) => {
         setTimeout(() => setCLickedPouch(null), 300); // wait for transition to finish
     };
 
-
-
     const statusColors: Record<Status, string> = {
-        "Free": "bg-green-100 text-green-800",
-        "Not Paid": "bg-red-100 text-red-800",
-        "Paid": "bg-blue-100 text-blue-800",
+        "Free": "bg-green-100 text-green-700",
+        "Not Paid": "bg-red-100 text-red-700",
+        "Paid": "bg-blue-100 text-blue-700",
     };
 
     const filteredOutlogs = useMemo(() => {
@@ -68,120 +67,131 @@ const PouchOutLogTable: React.FC<Props> = ({items}) => {
     );
 
     return (
-    <>
+    <div className="space-y-4">
         {/* Filters */}
-        <div className="flex items-center justify-between mb-4">
-            <div className="flex gap-2 items-center">
-                <div className="relative">
-                    <span className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
-                    <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"></path></svg>
-                    </span>
-                    <input
-                    value={search}
-                    onChange={(e) => {
-                        setSearch(e.target.value);
-                        setCurrentPage(1);
-                    }}
-                    placeholder="Search..."
-                    className="pl-10 pr-3 py-2 border rounded-lg text-sm outline-none"
-                    />
-                </div>
+        <div className="flex items-center justify-between gap-3">
+            <input
+                value={search}
+                onChange={(e) => {
+                setSearch(e.target.value);
+                setCurrentPage(1);
+                }}
+                placeholder="Search..."
+                className="w-full rounded-full border border-gray-200 px-4 py-2 text-sm shadow-sm focus:ring-2 focus:ring-blue-400 focus:outline-none pr-8"
+            />
 
-                <select
-                    value={statusFilter}
-                    onChange={(e) => {
-                        setStatusFilter(e.target.value as any);
-                        setCurrentPage(1);
-                    }}
-                    className="py-2 px-3 border rounded-lg text-sm"
+            {/* Clear button (only shows if there's text) */}
+            {search && (
+                <button
+                onClick={() => {
+                    setSearch("");
+                    setCurrentPage(1);
+                }}
+                className=" text-stone-600 hover:text-stone-800 cursor-pointer"
                 >
-                    <option value="All">All Status</option>
-                    <option value="Free">Free</option>
-                    <option value="Not Paid">Not Paid</option>
-                    <option value="Paid">Paid</option>
-                </select>
-            </div>
+                <X size={16} />
+                </button>
+            )}
+
+            <select
+                value={statusFilter}
+                onChange={(e) => {
+                    setStatusFilter(e.target.value as any);
+                    setCurrentPage(1);
+                }}
+                className="rounded-full border border-gray-200 px-4 py-2 text-sm shadow-sm bg-white focus:ring-2 focus:ring-blue-400 focus:outline-none"
+            >
+                <option value="All">All Status</option>
+                <option value="Free">Free</option>
+                <option value="Not Paid">Not Paid</option>
+                <option value="Paid">Paid</option>
+            </select>
         </div>
 
-        {/* Table */}
-        <div className="bg-white border rounded-lg shadow-sm overflow-x-auto">
-            <table className="min-w-full table-fixed text-sm text-left capitalize">
-                <thead className="bg-gray-50">
-                    <tr>
-                    <th className="px-4 py-3">Date Created</th>
-                    <th className="px-4 py-3">Getter</th>
-                    <th className="px-4 py-3">Pouch Size</th>
-                    <th className="px-4 py-3">Quantity</th>
-                    <th className="px-4 py-3">Purpose</th>
-                    <th className="px-4 py-3">Given</th>
-                    <th className="px-4 py-3">Status</th>
-                    </tr>
-                </thead>
-                
-                <tbody className="divide-y">
-                    {paginatedOutlogs.map((o) => (
-                        <tr key={o.id} className="hover:bg-gray-50" 
-                            onClick={() => setCLickedPouch(o.id)} 
-                            style={{cursor: 'pointer'}}>
-                            <td className="px-4 py-3 align-top">{o.date_created}</td>
-                            <td className="px-4 py-3 align-top">{o.getter}</td>
-                            <td className="px-4 py-3 align-top">{o.pouch.size}</td>
-                            <td className="px-4 py-3 align-top">{o.quantity}</td>
-                            <td className="px-4 py-3 align-top">{o.purpose}</td>
-                            <td className="px-4 py-3 align-top">{o.given}</td>
-                            <td className="px-4 py-3 align-top">
-                            <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusColors[o.status]}`}>{o.status}</span>
-                            </td>
-                        </tr>
-                    ))}
+        {/* List (iOS style cards instead of rigid table) */}
+        <div className="space-y-3">
+            {paginatedOutlogs.map((o) => (
+                <div
+                    key={o.id}
+                    onClick={() => setCLickedPouch(o.id)}
+                    className="p-4 rounded-2xl bg-white/70 backdrop-blur-md border border-gray-200 shadow-sm hover:shadow-md transition cursor-pointer"
+                >
+                    <div className="flex justify-between items-center">
+                        <div>
+                            <p className="text-sm font-semibold">{o.getter}</p>
+                            <p className="text-xs text-gray-500">{o.date_created}</p>
+                        </div>
+                        <span className={`px-3 py-1 rounded-full text-xs font-medium ${statusColors[o.status]}`}>
+                            {o.status}
+                        </span>
+                    </div>
 
-                    {paginatedOutlogs.length === 0 && (
-                        <tr>
-                            <td colSpan={6} className="px-4 py-6 text-center text-gray-500">No records found.</td>
-                        </tr>
-                    )}
-                </tbody>
-            </table>
+                    <div className="mt-2 flex flex-wrap gap-3 text-sm text-gray-600">
+                        <span>Pouch: <b>{o.pouch.size}</b></span>
+                        <span>Qty: <b>{o.quantity}</b></span>
+                        <span>Purpose: {o.purpose}</span>
+                        <span>Given: {o.given}</span>
+                    </div>
+                </div>
+            ))}
+
+            {paginatedOutlogs.length === 0 && (
+                <div className="text-center py-8 text-gray-500 text-sm">
+                    No records found.
+                </div>
+            )}
         </div>
 
         {/* Pagination */}
-        <div className="flex justify-center items-center gap-2 mt-4 flex-wrap">
+        <div className="flex justify-center items-center gap-2 mt-6 flex-wrap">
             <button
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage((p) => p - 1)}
-                className="px-3 py-1 border rounded disabled:opacity-50"
+                className={`px-4 py-2 rounded-full border text-sm font-medium transition 
+                ${currentPage === 1 
+                    ? "opacity-40 cursor-not-allowed" 
+                    : "hover:bg-gray-100 active:scale-95 cursor-pointer"}`}
             >
-                Prev
+                ◀ Prev
             </button>
+
             {(() => {
                 const maxVisible = 4;
                 let start = Math.max(1, currentPage - Math.floor(maxVisible / 2));
                 let end = start + maxVisible - 1;
 
                 if (end > totalPages) {
-                    end = totalPages;
-                    start = Math.max(1, end - maxVisible + 1);
+                end = totalPages;
+                start = Math.max(1, end - maxVisible + 1);
                 }
 
                 const pages = [];
                 for (let i = start; i <= end; i++) {
-                    pages.push(
+                pages.push(
                     <button
-                        key={i}
-                        onClick={() => setCurrentPage(i)}
-                        className={`px-3 py-1 border rounded ${currentPage === i ? "bg-gray-200 font-bold" : ""}`}
+                    key={i}
+                    onClick={() => setCurrentPage(i)}
+                    className={`w-9 h-9 flex items-center justify-center rounded-full text-sm font-medium transition
+                        ${currentPage === i 
+                        ? "bg-black text-white shadow-md" 
+                        : "hover:bg-gray-100 active:scale-95 cursor-pointer"}`}
                     >
-                        {i}
+                    {i}
                     </button>
-                    );
+                );
                 }
 
                 return (
                 <>
                     {start > 1 && (
                     <>
-                        <button onClick={() => setCurrentPage(1)} className="px-3 py-1 border rounded">1</button>
-                        {start > 2 && <span className="px-2">...</span>}
+                        <button
+                        onClick={() => setCurrentPage(1)}
+                        className="w-9 h-9 flex items-center justify-center rounded-full text-sm hover:bg-gray-100"
+                        >
+                        1
+                        </button>
+                        {start > 2 && <span className="px-2 text-gray-400">…</span>}
                     </>
                     )}
 
@@ -189,21 +199,31 @@ const PouchOutLogTable: React.FC<Props> = ({items}) => {
 
                     {end < totalPages && (
                     <>
-                        {end < totalPages - 1 && <span className="px-2">...</span>}
-                        <button onClick={() => setCurrentPage(totalPages)} className="px-3 py-1 border rounded">{totalPages}</button>
+                        {end < totalPages - 1 && <span className="px-2 text-gray-400">…</span>}
+                        <button
+                        onClick={() => setCurrentPage(totalPages)}
+                        className="w-9 h-9 flex items-center justify-center rounded-full text-sm hover:bg-gray-100"
+                        >
+                        {totalPages}
+                        </button>
                     </>
                     )}
                 </>
                 );
             })()}
+
             <button
                 disabled={currentPage === totalPages || totalPages === 0}
                 onClick={() => setCurrentPage((p) => p + 1)}
-                className="px-3 py-1 border rounded disabled:opacity-50"
+                className={`px-4 py-2 rounded-full border text-sm font-medium transition 
+                ${currentPage === totalPages || totalPages === 0 
+                    ? "opacity-40 cursor-not-allowed" 
+                    : "hover:bg-gray-100 active:scale-95 cursor-pointer"}`}
             >
-                Next
+                Next ▶
             </button>
         </div>
+
 
         {clickedPouch && (
             <PouchModal 
@@ -216,7 +236,7 @@ const PouchOutLogTable: React.FC<Props> = ({items}) => {
                 setLoadingId={setLoadingId}
             />
         )}
-    </>
+    </div>
     )
 }
 

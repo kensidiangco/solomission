@@ -7,52 +7,65 @@ import { usePouchInventory, usePouchOutLogInventory, useRecentPouchLogs } from "
 import Link from "next/link";
 
 export default function Pouch() {
-    const { pouchOutLog, isPouchLogLoading, isPouchLogError } = usePouchOutLogInventory(); 
-    const { pouch, isPouchLoading, isPouchError } = usePouchInventory(); 
-    const { recentPouch, isRecentPouchLoading, isRecentPouchError } = useRecentPouchLogs(); 
+  const { pouchOutLog } = usePouchOutLogInventory(); 
+  const { pouch } = usePouchInventory(); 
+  const { recentPouch } = useRecentPouchLogs(); 
 
-    return (
-        <div className="h-screen p-20 flex flex-center justify-center items-center relative">
+  return (
+    <div className="min-h-screen bg-gray-50 p-6 md:p-12">
+      <div className="max-w-7xl mx-auto space-y-8">
+        
+        {/* Header */}
+        <header className="flex items-center justify-between">
+          <h1 className="text-2xl md:text-3xl font-bold flex items-center gap-2">
+            <Link href={"/"} className="hover:scale-110 transition">📦</Link>
+            Pouch Inventory System
+          </h1>
+          <nav className="hidden md:flex gap-6 text-gray-600 text-sm font-medium">
+            <Link href={"/pouch/inbound"} className="hover:text-blue-500 transition">Inbound</Link>
+            <Link href={"/pouch/outbound"} className="hover:text-blue-500 transition">Outbound</Link>
+          </nav>
+        </header>
 
-            <div className="max-w-7xl mx-auto bg-white rounded-2xl shadow p-6">
-                <header className="flex items-center justify-between mb-6">
-                <p className="text-2xl font-bold"><Link href={"/"}>📦</Link> Pouch Inventory System</p>
-                <nav className="text-gray-600 hidden md:flex gap-6">
-                    <Link href={"/pouch/inbound"} className="cursor-pointer">Inbound</Link>
-                    <Link href={"/pouch/outbound"} className="cursor-pointer">Outbound</Link>
-                    {/* <Link href={""} className="cursor-pointer">Settings</Link> */}
-                </nav>
-                </header>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        {/* Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          
+          {/* Stock Section */}
+          <section className="bg-white rounded-2xl shadow p-6 md:col-span-1">
+            <h2 className="text-lg md:text-xl font-semibold mb-4">📦 Stock</h2>
+            <PouchStock items={pouch} />
+          </section>
 
-                    <section className="space-y-4">
-                        <h2 className="text-3xl font-semibold">Stock</h2>
-                        <PouchStock items={pouch} />
-                    </section>
-                    
-                    <section className="md:col-span-2">
-                        <h2 className="text-3xl font-semibold mb-4">Outbound Pouch</h2>
-                        <PouchOutLogTable items={pouchOutLog} />
-                    </section>
-                
-                    <aside className="space-y-4">
-                        <h2 className="text-3xl font-semibold">Recent Outbound</h2>
+          {/* Outbound Logs Section (takes 2 cols) */}
+          <section className="bg-white rounded-2xl shadow p-6 md:col-span-2">
+            <h2 className="text-lg md:text-xl font-semibold mb-4">🚚 Outbound Pouch</h2>
+            <PouchOutLogTable items={pouchOutLog} />
+          </section>
 
-                        <RecentPouchLog items={recentPouch} />
+          {/* Recent Section */}
+          <section className="bg-white rounded-2xl shadow p-6 md:col-span-1 space-y-6">
+            <h2 className="text-lg md:text-xl font-semibold">🕒 Recent Outbound</h2>
+            <RecentPouchLog items={recentPouch} />
 
-                        {/* small legend */}
-                        <div className="p-4 border rounded-lg bg-gray-50">
-                            <div className="flex items-center gap-2 text-sm">
-                                <span className="inline-block w-3 h-3 rounded-full bg-green-300" /> <span>Free</span>
-                                <span className="inline-block w-3 h-3 rounded-full bg-blue-300 ml-3" /> <span>Paid</span>
-                                <span className="inline-block w-3 h-3 rounded-full bg-red-300 ml-3" /> <span>Not Paid</span>
-                            </div>
-                        </div>
-                    </aside>
-                </div>
+            {/* Legend */}
+            <div className="p-4 border rounded-xl bg-gray-50 text-sm text-gray-700">
+              <h3 className="font-medium mb-2">Legend</h3>
+              <div className="flex flex-wrap gap-4">
+                <span className="flex items-center gap-1">
+                  <span className="w-3 h-3 rounded-full bg-green-300" /> Free
+                </span>
+                <span className="flex items-center gap-1">
+                  <span className="w-3 h-3 rounded-full bg-blue-300" /> Paid
+                </span>
+                <span className="flex items-center gap-1">
+                  <span className="w-3 h-3 rounded-full bg-red-300" /> Not Paid
+                </span>
+              </div>
             </div>
+          </section>
+
         </div>
-
-
-  )
+      </div>
+    </div>
+  );
 }
