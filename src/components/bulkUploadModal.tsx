@@ -48,7 +48,7 @@ export default function BulkUploadModal() {
           if ((key.toLowerCase() === "date_created" || key.toLowerCase() === "date_updated") && typeof value === "number") {
             value = excelDateToString(value);
           } else if (typeof value === "string") {
-            value = value.toLowerCase();
+            value = capitalizeWords(value);
             if (key.toLowerCase() === "status") {
               value = capitalizeWords(value);
             }

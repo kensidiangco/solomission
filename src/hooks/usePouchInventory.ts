@@ -3,7 +3,7 @@
 import useSWR from 'swr';
 import fetcher from "@/lib/fetcher";
 
-interface pouchOutLogItem {
+interface pouchOutboundLogItem {
     id: number
     pouch: string;
     getter: string;
@@ -14,13 +14,32 @@ interface pouchOutLogItem {
     date_created: string;
 }
 
-export function usePouchOutLogInventory() {
-    const { data, error, isLoading, mutate } = useSWR<pouchOutLogItem[]>('outlog/', fetcher);
+export function usePouchOutboundInventory() {
+    const { data, error, isLoading, mutate } = useSWR<pouchOutboundLogItem[]>('outlog/', fetcher);
 
     return {
-        pouchOutLog: Array.isArray(data) ? data : [],
-        isPouchLogLoading: isLoading,
-        isPouchLogError: error,
+        pouchOutbound: Array.isArray(data) ? data : [],
+        isPouchOutboundLoading: isLoading,
+        isPouchOutboundError: error,
+        mutate,
+    };
+}
+
+interface pouchInboundItem {
+    id: number
+    pouch: string;
+    getter: string;
+    quantity: number;
+    date_created: string;
+}
+
+export function usePouchInboundInventory() {
+    const { data, error, isLoading, mutate } = useSWR<pouchInboundItem[]>('inlog/', fetcher);
+
+    return {
+        pouchInbound: Array.isArray(data) ? data : [],
+        isPouchInboundLoading: isLoading,
+        isPouchInboundError: error,
         mutate,
     };
 }
@@ -29,6 +48,7 @@ interface pouchItem {
     id: number;
     size: string;
     quantity: number;
+    inbounded_quantity: number;
     date_created: string;
     date_updated: string;
 }
@@ -42,6 +62,21 @@ export function usePouchInventory() {
         isPouchError: error,
         mutate,
     };
+}
+
+export function usePouchById(id?: number) {
+  // Only fetch if id is provided
+  const { data, error, isLoading, mutate } = useSWR<pouchItem>(
+    id ? `pouch/${id}/` : null,
+    fetcher
+  );
+
+  return {
+    pouch: data,
+    isPouchLoading: isLoading,
+    isPouchError: error,
+    mutate,
+  };
 }
 
 interface recentPouchLogs {
@@ -64,27 +99,4 @@ export function useRecentPouchLogs() {
         isRecentPouchError: error,
         mutate,
     };
-}
-
-interface pouchItem {
-  id: number;
-  size: string;
-  quantity: number;
-  date_created: string;
-  date_updated: string;
-}
-
-export function usePouchById(id?: number) {
-  // Only fetch if id is provided
-  const { data, error, isLoading, mutate } = useSWR<pouchItem>(
-    id ? `pouch/${id}/` : null,
-    fetcher
-  );
-
-  return {
-    pouch: data,
-    isPouchLoading: isLoading,
-    isPouchError: error,
-    mutate,
-  };
 }
