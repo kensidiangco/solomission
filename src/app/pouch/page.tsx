@@ -38,8 +38,7 @@ export default function Pouch() {
 
           {/* Outbound Logs Section (takes 2 cols) */}
           <section className="bg-white rounded-2xl shadow p-6 md:col-span-2">
-            <h2 className="text-lg md:text-xl font-semibold mb-4">🚚 Outbound Pouch</h2>
-            <PouchOutLogTable items={pouchOutLog} />
+            <h2 className="text-lg md:text-xl font-semibold mb-4">🚚 Inbound Pouch (Latest)</h2>
           </section>
 
           {/* Recent Section */}
@@ -62,6 +61,13 @@ export default function Pouch() {
                 </span>
               </div>
             </div>
+          </section>
+
+          
+          {/* Outbound Logs Section (takes 2 cols) */}
+          <section className="bg-white rounded-2xl shadow p-6 md:col-span-4">
+            <h2 className="text-lg md:text-xl font-semibold mb-4">🚚 Outbound Pouch</h2>
+            <PouchOutLogTable items={pouchOutLog} />
           </section>
 
         </div>

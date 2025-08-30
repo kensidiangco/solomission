@@ -194,13 +194,13 @@ export default function PouchDetailPage() {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full mt-4 py-3 rounded-2xl font-semibold text-white shadow-md transition-all ${
+            className={`w-full mt-4 py-3 rounded-2xl font-semibold text-white shadow-md transition-all cursor-pointer ${
               loading
                 ? "bg-gray-400 cursor-not-allowed"
                 : "bg-blue-500 hover:bg-blue-600"
             }`}
           >
-            {loading ? "Updating..." : "Submit"}
+            {loading ? "Updating..." : "Update Details"}
           </button>
         </form>
       </main>
