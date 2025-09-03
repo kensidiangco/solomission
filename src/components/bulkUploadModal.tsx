@@ -10,12 +10,17 @@ export default function BulkUploadModal() {
   const [excelData, setExcelData] = useState<any[]>([]);
   const router = useRouter();
 
-  // ✅ Convert Excel serial date to YYYY-MM-DD
   const excelDateToString = (serial: number) => {
     const utc_days = Math.floor(serial - 25569);
     const utc_value = utc_days * 86400;
     const date_info = new Date(utc_value * 1000);
-    return date_info.toISOString().split("T")[0];
+
+    // ✅ Format as YYYY-MM-DD in local timezone
+    const year = date_info.getFullYear();
+    const month = String(date_info.getMonth() + 1).padStart(2, "0");
+    const day = String(date_info.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
   };
 
   // ✅ Capitalize each word (for status)
