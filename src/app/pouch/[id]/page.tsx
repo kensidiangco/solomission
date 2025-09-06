@@ -6,6 +6,7 @@ import { usePouchById } from "@/hooks/usePouchInventory";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { mutate } from "swr";
+import { ArrowLeft } from "lucide-react";
 
 export default function PouchDetailPage() {
   const params = useParams();
@@ -83,15 +84,20 @@ export default function PouchDetailPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 via-white to-purple-100">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-white/30 backdrop-blur-lg shadow-md border-b border-white/20">
-        <div className="max-w-4xl mx-auto flex items-center justify-between px-6 py-4">
+      
+      {/* Header with Back */}
+      <header className="sticky top-0 z-40 px-4">
+        <div className="mx-auto max-w-4xl mt-2 bg-white/70 backdrop-blur-xl shadow-lg rounded-2xl flex items-center justify-between px-4 py-3 border border-white/30">
+          {/* Back Button */}
           <button
-            onClick={() => router.push("/pouch")}
-            className="text-sm px-4 py-2 rounded-full bg-white/60 hover:bg-white shadow-md transition-all cursor-pointer"
+            onClick={() => router.push('/pouch/')}
+            className="flex items-center gap-2 text-blue-600 font-medium hover:text-blue-800 cursor-pointer transition"
           >
-            ⬅ Back
+            <ArrowLeft size={20} />
+            Home
           </button>
+
+          {/* Title */}
           <h1 className="text-lg font-semibold text-gray-800">📦 Update Stock Out</h1>
           <button
             type="button"
@@ -109,7 +115,7 @@ export default function PouchDetailPage() {
       </header>
 
       {/* Content */}
-      <main className="flex justify-center items-center p-6">
+      <main className="flex justify-center items-center p-6 mt-10">
         <form
           onSubmit={handlePouchUpdate}
           className="w-full max-w-md bg-white/70 backdrop-blur-xl rounded-3xl shadow-lg border border-white/20 p-6 space-y-5"

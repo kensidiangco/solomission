@@ -36,13 +36,13 @@ export default function PouchOut() {
   const [bulkModalOpen, setBulkModalOpen] = useState(false);
   const router = useRouter();
 
-  const getNow = () => new Date().toISOString().slice(0, 19).replace("T", " ");
+  const getToday = () => new Date().toISOString().slice(0, 10);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    const now = getNow();
+    const now = getToday();
 
     try {
       await axios.post(`${process.env.NEXT_PUBLIC_API_URL}out/`, {

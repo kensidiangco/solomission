@@ -15,7 +15,7 @@ interface pouchOutboundLogItem {
 }
 
 export function usePouchOutboundInventory() {
-    const { data, error, isLoading, mutate } = useSWR<pouchOutboundLogItem[]>('outlog/', fetcher);
+    const { data, error, isLoading, mutate } = useSWR<pouchOutboundLogItem[]>('pouch/outbounded/', fetcher);
 
     return {
         pouchOutbound: Array.isArray(data) ? data : [],
@@ -34,7 +34,7 @@ interface pouchInboundItem {
 }
 
 export function usePouchInboundInventory() {
-    const { data, error, isLoading, mutate } = useSWR<pouchInboundItem[]>('inlog/', fetcher);
+    const { data, error, isLoading, mutate } = useSWR<pouchInboundItem[]>('pouch/inbounded/', fetcher);
 
     return {
         pouchInbound: Array.isArray(data) ? data : [],
@@ -42,6 +42,21 @@ export function usePouchInboundInventory() {
         isPouchInboundError: error,
         mutate,
     };
+}
+
+export function usePouchInboundById(id?: number) {
+  // Only fetch if id is provided
+  const { data, error, isLoading, mutate } = useSWR<pouchInboundItem>(
+    id ? `pouch/inbounded/${id}/` : null,
+    fetcher
+  );
+
+  return {
+    inboundedPouch: data,
+    isInboundedPouchLoading: isLoading,
+    isInboundedPouchError: error,
+    mutate,
+  };
 }
 
 interface pouchItem {
@@ -91,7 +106,7 @@ interface recentPouchLogs {
 }
 
 export function useRecentPouchLogs() {
-    const { data, error, isLoading, mutate } = useSWR<recentPouchLogs[]>('latestlog/', fetcher);
+    const { data, error, isLoading, mutate } = useSWR<recentPouchLogs[]>('pouch/recent/outbounded/', fetcher);
 
     return {
         recentPouch: Array.isArray(data) ? data : [],

@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 import { mutate } from 'swr';
-import { ArrowLeft, ArrowRight } from 'lucide-react'; // 👈 for back button icon
+import { ArrowLeft } from 'lucide-react'; // 👈 for back button icon
 
 export default function Invent() {
   const [quantity, setQuantity] = useState(0);

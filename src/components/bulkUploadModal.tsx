@@ -15,13 +15,14 @@ export default function BulkUploadModal() {
     const utc_value = utc_days * 86400;
     const date_info = new Date(utc_value * 1000);
 
-    // ✅ Format as YYYY-MM-DD in local timezone
-    const year = date_info.getFullYear();
-    const month = String(date_info.getMonth() + 1).padStart(2, "0");
-    const day = String(date_info.getDate()).padStart(2, "0");
+    // ✅ Force UTC, no timezone offset applied
+    const year = date_info.getUTCFullYear();
+    const month = String(date_info.getUTCMonth() + 1).padStart(2, "0");
+    const day = String(date_info.getUTCDate()).padStart(2, "0");
 
     return `${year}-${month}-${day}`;
   };
+
 
   // ✅ Capitalize each word (for status)
   const capitalizeWords = (str: string) => {

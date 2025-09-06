@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link';
 import React, { useState, useMemo } from 'react'
 
 interface recentPouchInbound {
@@ -32,7 +33,7 @@ const InboundPouchCard: React.FC<Props> = ({ items }) => {
       {paginatedItems.map(item => (
         <div 
           key={item.id} 
-          className="p-4 rounded-2xl bg-white/70 backdrop-blur-md border border-gray-200 shadow-sm hover:shadow-md transition cursor-pointer"
+          className="p-4 rounded-2xl bg-white/70 backdrop-blur-md border border-gray-200 shadow-sm hover:shadow-md transition"
         >
           {/* Top Section */}
           <div className="flex justify-between items-center">
@@ -40,8 +41,10 @@ const InboundPouchCard: React.FC<Props> = ({ items }) => {
               <p className="text-sm font-semibold">Date Inbound</p>
               <p className="text-xs text-gray-500">{item.date_created}</p>
             </div>
-            <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-600">
-              {item.pouch?.size}
+            <span className="px-3 py-1 rounded-full text-xs font-medium ">
+              <Link href={`/pouch/inbound/${item.id}`} className='cursor-pointer text-blue-600 hover:underline'>
+                ✏️ Update Details
+              </Link>
             </span>
           </div>
 
@@ -50,8 +53,8 @@ const InboundPouchCard: React.FC<Props> = ({ items }) => {
             <span>
               Pouch: <b>{item.quantity_formatted ?? item.quantity}</b>
             </span>
-            <span>
-              Status: <b>Inbounded</b>
+            <span className="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-600">
+              {item.pouch?.size}
             </span>
           </div>
         </div>
