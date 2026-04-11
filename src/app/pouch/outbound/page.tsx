@@ -161,7 +161,7 @@ export default function PouchOut() {
               onChange={(e) => setPurpose(e.target.value)}
               className="w-full px-4 py-3 rounded-xl bg-white/60 backdrop-blur-xl border border-white/30"
             >
-              <option value="">Select Purpose (optional)</option>
+              <option value="">Select purpose</option>
               <option value="Sell">Sell</option>
               <option value="Give">Give</option>
             </select>    
@@ -174,7 +174,7 @@ export default function PouchOut() {
               type="text" 
               value={given}
               onChange={(e) => setGiven(e.target.value)}
-              placeholder="Type who will be given (optional)" 
+              placeholder="Type who will be given" 
               className="w-full px-4 py-3 rounded-xl bg-white/60 backdrop-blur-xl border border-white/30"
             />
           </div>
