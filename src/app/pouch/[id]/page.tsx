@@ -41,7 +41,7 @@ export default function PouchDetailPage() {
     setLoading(true);
 
     try {
-      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}update/${id}/`, {
+      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}update/outbounded/${id}/`, {
         id,
         getter,
         pouch: pouch?.size,
@@ -66,7 +66,7 @@ export default function PouchDetailPage() {
     setDeleteLoading(true);
 
     try {
-      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}delete/${id}/`);
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}delete/outbounded/${id}/`);
       toast.success("Item Deleted!");
       mutate("pouch/");
       router.push("/pouch");

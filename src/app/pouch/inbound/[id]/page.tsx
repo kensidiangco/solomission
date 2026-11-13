@@ -14,17 +14,19 @@ export default function InboundedDetails() {
   const { inboundedPouch, isInboundedPouchLoading, isInboundedPouchError } =
     usePouchInboundById(id);
   const router = useRouter();
-
+  const [pouchSize, setPouchSize] = useState("");
   const [quantity, setQuantity] = useState(0);
-  const [dateCreated, setDateCreated] = useState("");
+  const [dateUpdated, setDateUpdated] = useState(
+    new Date().toLocaleDateString("en-CA")
+  );
   const [loading, setLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
   // ✅ Pre-fill form with fetched pouch
   useEffect(() => {
     if (inboundedPouch) {
+      setPouchSize(inboundedPouch.pouch.size || "");
       setQuantity(inboundedPouch.quantity || 0);
-      setDateCreated(inboundedPouch.date_created || "");
     }
   }, [inboundedPouch]);
 
@@ -34,14 +36,14 @@ export default function InboundedDetails() {
     setLoading(true);
 
     try {
-      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}inbound/update/${id}/`, {
+      await axios.put(`${process.env.NEXT_PUBLIC_API_URL}update/inbounded/${id}/`, {
         id,
         quantity,
-        date_created: dateCreated,
+        date_updated: dateUpdated,
       });
 
       toast.success("✅ Inbound updated!");
-      mutate(`inbound/${id}`);
+      mutate(`update/inbounded/${id}/`);
     } catch (error: any) {
       console.error("Update failed:", error.response?.data);
       toast.error("❌ Failed to update inbound!");
@@ -56,7 +58,7 @@ export default function InboundedDetails() {
     setDeleteLoading(true);
 
     try {
-      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}inbound/delete/${id}/`);
+      await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}delete/inbounded/${id}/`);
       toast.success("Inbound deleted!");
       mutate("inbound/");
       router.push("/pouch");
@@ -89,7 +91,7 @@ export default function InboundedDetails() {
             Home
           </button>
 
-          <h1 className="text-lg font-semibold text-gray-800">📦 Inbound Details</h1>
+          <h1 className="text-lg font-semibold text-gray-800">📦 Inbounded Details</h1>
 
           <button
             type="button"
@@ -113,6 +115,7 @@ export default function InboundedDetails() {
           className="w-full max-w-md bg-white/70 backdrop-blur-xl rounded-3xl shadow-lg border border-white/20 p-6 space-y-5"
         >
           <div>
+            <h1 className="text-2xl font-bold text-gray-800 text-center pb-4">{pouchSize} Pouch</h1>
             <label className="block text-sm text-gray-600">Quantity</label>
             <input
               type="number"
@@ -125,14 +128,8 @@ export default function InboundedDetails() {
           </div>
 
           <div>
-            <label className="block text-sm text-gray-600">Date Created</label>
-            <input
-              type="date"
-              value={dateCreated}
-              onChange={(e) => setDateCreated(e.target.value)}
-              required
-              className="w-full mt-1 px-4 py-3 rounded-2xl border border-gray-200 bg-white/60 text-gray-800 shadow-sm focus:ring-2 focus:ring-green-400 focus:outline-none"
-            />
+            <label className="block text-sm text-gray-600">Date Updated</label>
+            <p className="w-full mt-1 px-4 py-3 rounded-2xl border border-gray-200 bg-white/60 text-gray-800 shadow-sm focus:ring-2 focus:ring-green-400 focus:outline-none">{dateUpdated}</p>
           </div>
 
           <button
